@@ -23,7 +23,7 @@
         mysqli_stmt_bind_param($checkExisting, "s", $ID);
         mysqli_stmt_execute($checkExisting);
         $resultExisting = mysqli_stmt_get_result($checkExisting);
-        
+        $resultnull=true;
         if ($resultExisting->num_rows > 0) {
             $row = mysqli_fetch_assoc($resultExisting);
             $ID = $row["Product_ID"];
@@ -35,10 +35,8 @@
             $pCost = $row["Product_Cost"];
             $Size = $row["Size"];
             $Status = $row["Product_Status"];
-        } else {
-            $result=false;
-                
-        }
+            $resultnull=false;
+        } 
     }
     
     ?>
@@ -104,7 +102,7 @@
                             </div>
                             <?php if(isset($checkExisting)){ 
                                 echo "<hr>";
-                                if($result)
+                                if($resultnull )
                                 {
                                     echo "<h3>Product ID does not exist</h3>";
                                 } else{?>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-$conn= mysqli_connect("localhost","root","","final_year_project_2") or die;// fill out database name
+$conn= mysqli_connect("localhost","root","","final_year_project(1)") or die;// fill out database name
 
 // Check connection
 if ($conn->connect_error) {
