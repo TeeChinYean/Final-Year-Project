@@ -23,6 +23,7 @@ if (isset($_POST["search"])) {
         $row = mysqli_fetch_assoc($resultExisting);
         $productDetails = [
             "ID" => $row["Product_ID"],
+            $_SESSION["Delete_ID"] = $row["Product_ID"],
             "Name" => $row["Product_Name"],
             "Category" => $row["Category"],
             "Description" => $row["Product_Description"],

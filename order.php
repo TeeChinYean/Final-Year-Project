@@ -11,7 +11,7 @@ if (isset($_POST['editpage'])) {
 }
 
 if (isset($_POST["search"])) {
-    $Order_ID = trim($_POST["Invoice_ID"] ?? '');
+    $Invoice_ID = trim($_POST["Invoice_ID"] ?? '');
     if ($Order_ID !== '') {
         $query = "SELECT 
                 b.Invoice_ID, p.Product_Name, c.Customer_Username, b.Invoice_Date, 
@@ -23,7 +23,7 @@ if (isset($_POST["search"])) {
             WHERE b.Invoice_ID = ?";
         
         if ($stmt = mysqli_prepare($conn, $query)) {
-            mysqli_stmt_bind_param($stmt, "s", $Order_ID);
+            mysqli_stmt_bind_param($stmt, "s", $Invoice_ID);
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
             
@@ -52,7 +52,7 @@ if (isset($_POST["edit"])) {
     $Status = trim($_POST["Status"] ?? '');
     
     if ($ID !== '' && $Status !== '') {
-        $query = "UPDATE `order` SET Order_Status = ? WHERE Order_ID = ?";
+        $query = "UPDATE `bill_master` SET Invoice_status = ? WHERE Invoice_ID = ?";
         
         if ($stmt = mysqli_prepare($conn, $query)) {
             mysqli_stmt_bind_param($stmt, "ss", $Status, $ID);
@@ -76,7 +76,7 @@ function fetchOrders($conn, $statuses, $offset, $limit, $excludeDelivered = fals
     $query = "SELECT 
     b.Invoice_ID, p.Product_Name, c.Customer_Username, b.Invoice_Date, 
     r.Quantity, b.Total_Amount, b.Delivery_Address, b.Invoice_Status
-FROM `bill_master` b
+FROM bill_master b
 JOIN bill_master_transaction r ON b.Invoice_ID = r.Invoice_ID 
 JOIN product p ON r.Product_ID = p.Product_ID 
 JOIN customer c ON b.Customer_ID = c.Customer_ID
@@ -97,7 +97,7 @@ JOIN customer c ON b.Customer_ID = c.Customer_ID
 
 $offset = isset($_POST['offset']) ? intval($_POST['offset']) : 0;
 $limit = 10;
-$statuses = ['Ordered', 'Preparing', 'In transit'];
+$statuses = ['Pending','Ordered', 'Preparing', 'In transit'];
 
 $result = fetchOrders($conn, $statuses, $offset, $limit, true);
 ?>
@@ -241,7 +241,6 @@ $result = fetchOrders($conn, $statuses, $offset, $limit, true);
                                     $num = 0;
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         $num++;
-                                        $formattedOrderDate = (new DateTime($row['Order_Date']))->format('Y-m-d');
                                         echo "<tr>";
                                         echo "<td>$num</td>";
                                         echo "<td>{$row['Invoice_ID']}</td>";
@@ -286,7 +285,6 @@ $result = fetchOrders($conn, $statuses, $offset, $limit, true);
                                     $num = 0;
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         $num++;
-                                        $formattedOrderDate = (new DateTime($row['Order_Date']))->format('Y-m-d');
                                         echo "<tr>";
                                         echo "<td>$num</td>";
                                         echo "<td>{$row['Invoice_ID']}</td>";

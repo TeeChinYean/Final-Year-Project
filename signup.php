@@ -112,7 +112,7 @@ if (isset($_POST["signup"])) {
                             <a href="index.html" class="">
                                 <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>TKT Sport Shoes</h3>
                             </a>
-                            <h3>Sign Up</h3>
+                            <h3>New Staff</h3>
                         </div>
 
                         <!-- Form Start -->
@@ -135,7 +135,7 @@ if (isset($_POST["signup"])) {
                             <div class="form-floating mb-3">
                                 <input type="password" class="form-control" id="adminCPassword" name="adminCPassword" placeholder="Confirmed Password" required>
                                 <label for="floatingPassword">Confirmed Password</label>
-                            </div>
+                            </div>  
                             <button type="submit" class="btn btn-primary" id="signup" name="signup">Sign Up</button>
                             <button type="button" class="btn btn-primary" onclick="back()">Back</button>
                         </form>
